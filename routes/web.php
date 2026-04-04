@@ -3,19 +3,26 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MyPlaceController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ContactController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/about', [AboutController::class, 'index']);
+Route::get('/contact', [ContactController::class, 'index']);
 
-Route::get('/page', function(){
+
+// Route::get('/', function () {
+//     return view('Components.layout');
+// });
+
+
+Route::get('/page', function () {
     return "This is '/page'";
 });
 
-// Одиночный маршрут
 Route::get('/index', [MyPlaceController::class, 'index']);
 
-// Группа маршрутов для PostController
 Route::controller(PostController::class)->group(function () {
     Route::get('/post', 'indexFunction');
     Route::get('/post/create', 'create');

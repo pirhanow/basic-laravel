@@ -9,7 +9,8 @@ class PostController extends Controller
 {
     public function indexFunction()
     {
-        return "Here is PostController";
+        return "Here is indexFunction from PostController";
+       // dd("Here is PostController");
     }
     public function create()
     {
