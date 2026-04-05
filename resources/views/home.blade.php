@@ -1,4 +1,6 @@
-<x-layout>
+@extends('Components.layout')
 
-    <h1>Hello from Home page</h1>
-</x-layout>
+@section('content')
+<h1>Here is Home page</h1>
+
+@endsection
