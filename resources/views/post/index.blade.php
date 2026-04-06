@@ -3,6 +3,9 @@
 @section('content')
 
 <div class="container my-4">
+    <div>
+        <a href="{{ route('post.create') }}">Add Post</a>
+    </div>
     <h1 class="mb-4 text-center">List of Posts</h1>
     @if($posts->isEmpty())
         <p class="text-center text-muted">No posts available.</p>
