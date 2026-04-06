@@ -23,16 +23,16 @@ Route::get('/page', function () {
 
 Route::get('/index', [MyPlaceController::class, 'index']);
 
-
 Route::resource('post', PostController::class);
 Route::get('/post', [PostController::class, 'index'])->name('post.index');
 Route::get('/create', [PostController::class, 'create'])->name('post.create');
 Route::post('/post', [PostController::class, 'store'])->name('post.store');
 Route::post('post/{post}', [PostController::class, 'show'])->name('post.show');
+
 Route::post('post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
 Route::match(['put', 'patch'], 'post/{post}', [PostController::class, 'update'])->name('post.update');
 
-
+Route::delete('post/{post}', [PostController::class, 'destroy'])->name('post.delete');
 
 // Route::controller(PostController::class)->group(function () {
 //     Route::get('/post', 'index')->name('post.index');

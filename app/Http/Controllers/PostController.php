@@ -38,14 +38,19 @@ public function store(Request $request) {
     return view('post.edit', compact('post'));
 }
 
-
     public function update(Post $post){
-         $validated = request()->validate([
+         $data = request()->validate([
         'title' => 'required|string|max:255',
         'post_content' => 'required|string',
         'likes' => 'required|integer',
     ]);
-        dd( $validated);
+        $post->update($data);
+        return redirect() -> route('post.show', $post->id);
+    }
+
+    public function destroy(Post $post) {
+        $post->delete();
+        return redirect() -> route('contact.index') ;
     }
 
     //  public function update (){
