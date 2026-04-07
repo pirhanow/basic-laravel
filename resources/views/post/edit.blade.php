@@ -19,6 +19,19 @@
             <label for="likes" class="form-label">Likes</label>
             <input type="number" class="form-control" id="likes" name="likes" placeholder="Number of likes" required value="{{ $post->post_content }}">
         </div>
+
+        <div class="form-group">
+            <label for="category">Category</label>
+           <select class="form-control" id="category" name="category_id">
+    @foreach ($categories as $category)
+        <option
+        value="{{ $category->id }}" {{ (old('category_id', $post->category_id ?? '') == $category->id) ? 'selected' : '' }}>
+            {{ $category->title }}
+        </option>
+    @endforeach
+</select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Update Post</button>
     </form>
 </div>
