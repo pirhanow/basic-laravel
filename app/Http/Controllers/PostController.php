@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\PostTag;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\View\Component;
-
-use function Laravel\Prompts\number;
 
 class PostController extends Controller
 {
@@ -21,20 +21,41 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('post.create', compact('categories'));
+        $tags = Tag::all();
+        return view('post.create', compact('categories', 'tags'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
+            'title' => 'required|string',
             'post_content' => 'required|string',
             'likes' => 'required|integer',
-            'category_id' => '',
+            'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'nullable|array',
+            'tags.*' => 'integer|exists:tags,id',
         ]);
-        //dd($validated);
-        Post::create($validated);
-        return redirect()->route('post.index');
+        $tags = $validated['tags'] ?? [];
+        unset($validated['tags']);
+
+        try {
+            $post = Post::create($validated);
+            // Проверка, что пост создан
+            if ($post) {
+                // Прикрепляем теги, если есть
+                if (!empty($tags)) {
+                    $post->tags()->attach($tags);
+                }
+                return redirect()->route('post.index');
+            } else {
+                return back()->withErrors('Не удалось создать пост');
+            }
+        } catch (\Exception $e) {
+            // Вывод ошибки для диагностики
+            dd('Ошибка при создании поста: ', $e->getMessage());
+            // Или можно вернуть ошибку назад
+            // return back()->withErrors($e->getMessage());
+        }
     }
 
     public function show(Post $post)
@@ -50,14 +71,24 @@ class PostController extends Controller
 
     public function update(Post $post)
     {
-
-            $data = request()->validate([
+        $validated = request()->validate([
             'title' => 'required|string|max:255',
             'post_content' => 'required|string',
             'likes' => 'required|integer',
-            'category_id' => '',
+            'category_id' => '', // Можно сделать nullable и проверку
+            'tags' => 'nullable|array',
         ]);
-        $post->update($data);
+
+        $tags = $validated['tags'] ?? [];
+        unset($validated['tags']);
+
+        $post->update($validated);
+        // Обновляем связи тегов, если есть
+        if (!empty($tags)) {
+            $post->tags()->sync($tags);
+        }
+        $post = $post->fresh();
+
         return redirect()->route('post.show', $post->id);
     }
 
@@ -67,76 +98,4 @@ class PostController extends Controller
         return redirect()->route('post.index');
     }
 
-
-
-
-
-
-    //  public function update (){
-    //     $post = Post::find(1, ['content']);
-
-    //     $post -> update ([
-    //             'title' => 'Updated title',
-    //             'content' => 'Updated content',
-    //             'image' => 'updated_is.jpg',
-    //             'likes' => 1000,
-    //             'is_published' => 0,
-    //     ]);
-    //     dd("updated!");
-    //     }
-
-    //         public function delete () {
-    //             $post = Post::withTrashed()->find(2, ['id']);
-    //             $post->restore();
-    //           //  $post->delete();
-    //         dd ('deleted');
-    //         }
-
-    //         public function firstOrCreate() {
-    //             $post = Post::find (1, ['id']);
-
-    //             $anotherPost = [
-    //                 'title' => 'Some Post',
-    //                 'content' => 'Some Content',
-    //                 'image' => 'some image.jpg',
-    //                 'likes' => '100',
-    //                 'is_published' => 1,
-    //             ];
-    //            $myPost = Post::firstOrCreate([
-    //                  'title' => 'Some Post'
-    //             ],[
-    //                 'title' => 'Some Post',
-    //                 'content' => 'Some Content',
-    //                 'image' => 'some image.jpg',
-    //                 'likes' => '100',
-    //                 'is_published' => 1,
-    //             ]);
-    //             dd('finished');
-    //         }
-    // }
-
-    // // public function create()
-    //     // {
-    //     //     $postsArr = [
-    //     //         [
-    //     //             'title' => 'title is here',
-    //     //             'content' => 'content there',
-    //     //             'image' => 'is.jpg',
-    //     //             'likes' => '100',
-    //     //             'is_published' => 1,
-    //     //         ],
-    //     //         [
-    //     //             'title' => 'Another title is here',
-    //     //             'content' => 'Another content there',
-    //     //             'image' => 'Another is.jpg',
-    //     //             'likes' => '150',
-    //     //             'is_published' => 1,
-    //     //         ],
-    //     //     ];
-    //     //     foreach($postsArr as $item){
-    //     //        // dd($item);
-    //     //         Post::create($item);
-    //     //     }
-
-    //     //     dd('successfully added to db');
 }
