@@ -30,6 +30,16 @@
 </select>
         </div>
 
+
+        <div class="form-group">
+            <label for="tags">Tags</label>
+           <select class="form-control" id="tags" name="tags[]" multiple>
+            @foreach ($tags as $tag)
+        <option value="{{ $tag->id }}">{{ $tag->title }}</option>
+        @endforeach
+            </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Create Post</button>
     </form>
 </div>
