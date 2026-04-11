@@ -9,7 +9,7 @@
     <div class="card">
         <div class="card-body">
             <h1 class="card-title">{{ $post->title }}</h1>
-            <p class="card-text">{{ $post->content }}</p>
+           <p class="card-text">{{ $post->post_content }}</p>
 
         </div>
     </div>
@@ -21,9 +21,9 @@
     <a href="{{ route('post.edit', $post->id) }}">Edit</a>
 </div>
 <div>
-<form action="{{ route('post.delete', $post->id) }}" method="POST">
+<form action="{{ route('post.destroy', $post->id) }}" method="POST">
     @csrf
     @method('delete')
-    <input type="submit" value="Delete">
+    <input type="submit" value="DELETE">
 </form>
 </div>

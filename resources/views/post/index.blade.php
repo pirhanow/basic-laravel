@@ -16,7 +16,7 @@
                     <h2 class="card-title">
                         <a href="{{ route('post.show', ['post' => $post]) }}">{{ $post->title }}</a>
                     </h2>
-                    <p class="card-text">{{ $post->content }}</p>
+                    <p class="card-text">{{ $post->post_content }}</p>
                 </div>
             </div>
         @endforeach

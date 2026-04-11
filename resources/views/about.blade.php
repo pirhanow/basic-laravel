@@ -13,7 +13,7 @@
   <div class="column">
     <div class="card">
       <div class="container">
-        <h2>Jane Doe</h2>
+        <h2>Arzuv Dovletova</h2>
         <p class="title">CEO & Founder</p>
         <p>Some text that describes me lorem ipsum ipsum lorem.</p>
         <p>jane@example.com</p>
