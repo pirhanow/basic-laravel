@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Services\Post;
+use App\Models\Post;
+
+class Service
+{
+    public function store(array $validated, array $tags = []): ?Post
+    {
+        try {
+            $post = Post::create($validated);
+            if ($post && !empty($tags)) {
+                $post->tags()->attach($tags);
+            }
+            return $post;
+        } catch (\Exception $e) {
+            // Log::error($e->getMessage());
+            return null;
+        }
+    }
+
+    public function update(Post $post, array $validated, array $tags = []): bool
+    {
+        try {
+            $post->update($validated);
+            if (!empty($tags)) {
+                $post->tags()->sync($tags);
+            }
+            return true;
+        } catch (\Exception $e) {
+            // Log::error($e->getMessage());
+            return false;
+        }
+    }
+}
