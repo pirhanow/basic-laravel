@@ -3,24 +3,22 @@
 namespace App\Http\Controllers\Post;
 
 use App\Models\Post;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\UpdateRequest;
 
-class UpdateController extends Controller
+class UpdateController extends BaseController
 {
     public function __invoke(Post $post, UpdateRequest $updateRequest)
     {
         $validated = $updateRequest->validated();
-
         $tags = $validated['tags'] ?? [];
         unset($validated['tags']);
 
-        $post->update($validated);
+        $success = $this->service->update($post, $validated, $tags);
 
-        if (!empty($tags)) {
-            $post->tags()->sync($tags);
+        if ($success) {
+            return redirect()->route('post.show', $post->id)->with('success', 'Пост обновлен');
+        } else {
+            return back()->withErrors('Не удалось обновить пост')->withInput();
         }
-
-        return redirect()->route('post.show', $post->id);
     }
 }
