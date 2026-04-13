@@ -8,13 +8,14 @@ return new class extends Migration
 {
 
     public function up(): void
-    {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('categories', function (Blueprint $table) {
+        $table->id();
+        $table->string('title');
+        $table->softDeletes();
+        $table->timestamps();
+    });
+}
 
     public function down(): void
     {
