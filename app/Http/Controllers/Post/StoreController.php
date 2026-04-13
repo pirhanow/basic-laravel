@@ -14,9 +14,9 @@ class StoreController extends BaseController
         $post = $this->service->store($validated, $tags);
 
         if ($post) {
-            return redirect()->route('post.index')->with('success', 'Пост успешно создан');
+            return redirect()->route('post.index')->with('success', ' Post was created successfully');
         } else {
-            return back()->withErrors('Не удалось создать пост')->withInput();
+            return back()->withErrors('Post was Not created successfully')->withInput();
         }
     }
 }

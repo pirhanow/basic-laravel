@@ -16,9 +16,9 @@ class UpdateController extends BaseController
         $success = $this->service->update($post, $validated, $tags);
 
         if ($success) {
-            return redirect()->route('post.show', $post->id)->with('success', 'Пост обновлен');
+            return redirect()->route('post.show', $post->id)->with('success', 'Post was updated');
         } else {
-            return back()->withErrors('Не удалось обновить пост')->withInput();
+            return back()->withErrors('НError Post was not updated')->withInput();
         }
     }
 }
