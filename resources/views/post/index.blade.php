@@ -20,6 +20,9 @@
                 </div>
             </div>
         @endforeach
+        <div>
+            {{ $posts->Links() }}
+        </div>
     @endif
 </div>
 @endsection

@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Post;
 
 use App\Models\Post;
-use App\Http\Controllers\Controller;
+use Illuminate\Pagination\Paginator;
 
 class IndexController extends BaseController
 {
     public function __invoke()
     {
-        $posts = Post::all();
+        $posts = Post::paginate(10);
         return view('post.index', compact('posts'));
     }
 }
