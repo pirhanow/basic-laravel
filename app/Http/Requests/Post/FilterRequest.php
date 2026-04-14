@@ -5,12 +5,9 @@ namespace App\Http\Requests\Post;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class FilterRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
+        public function authorize(): bool
     {
         return true;
     }
@@ -23,11 +20,12 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'string|max:255',
+          'title' => 'string',
             'post_content' => 'string',
             'likes' => 'integer',
-            'category_id' => '',
+            'category_id' => 'nullable|exists:categories,id',
             'tags' => 'nullable|array',
+            'tags.*' => 'integer|exists:tags,id',
         ];
     }
 }

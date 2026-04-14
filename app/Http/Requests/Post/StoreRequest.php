@@ -20,8 +20,8 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-          'title' => 'required|string',
-            'post_content' => 'required|string',
+          'title' => 'string',
+            'post_content' => 'string',
             'likes' => 'required|integer',
             'category_id' => 'nullable|exists:categories,id',
             'tags' => 'nullable|array',
