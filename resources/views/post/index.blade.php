@@ -1,4 +1,4 @@
-@extends('Components.layout') {{-- или 'layouts.app' --}}
+@extends('Components.layout')
 
 @section('content')
 
