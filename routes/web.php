@@ -5,8 +5,16 @@ use App\Http\Controllers\MyPlaceController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\MainController;
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/post', [\App\Http\Controllers\Admin\Post\IndexController::class, '__invoke'])->name('admin.post.index');
+});
+
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/main', [MainController::class, 'index']);
 Route::get('/about', [AboutController::class, 'index']);
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 Route::get('/index', [MyPlaceController::class, 'index']);
