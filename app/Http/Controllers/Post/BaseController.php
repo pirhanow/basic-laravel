@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Post;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Http\Controllers\Controller;
 use App\Services\Post\TestS;
 
